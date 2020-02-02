@@ -8103,12 +8103,12 @@
         }
       },
       "links": {},
-      "address": "0xd560F706175723ABD78e6b10aE7eC53112D9c1F2",
-      "transactionHash": "0x11767f85730effdaf761bfd1158e55a228ba2e65342242a05c4340f222061b64"
+      "address": "0xDE9282705E6365C5C8C6761554F2254b44eb23EC",
+      "transactionHash": "0x2be4b582fba28c6873567af139dde494b5fc879142ecc38f632d185b04729742"
     }
   },
   "schemaVersion": "3.0.16",
-  "updatedAt": "2019-09-30T17:08:44.647Z",
+  "updatedAt": "2020-01-28T08:03:21.144Z",
   "devdoc": {
     "methods": {
       "getUserById(uint256)": {
