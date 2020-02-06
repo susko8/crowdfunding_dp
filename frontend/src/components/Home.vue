@@ -1,19 +1,15 @@
 <template>
-  <v-app>
-      <router-view/>
-  </v-app>
+<v-container>
+sss
+</v-container>
 </template>
 
 <script>
-
 export default {
-  name: 'App',
-
-  components: {
-  },
+  name: 'Home',
 
   data: () => ({
-    //
+
   }),
 };
 </script>
