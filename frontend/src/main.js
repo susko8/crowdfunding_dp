@@ -8,6 +8,8 @@ Vue.use(VueRouter)
 
 Vue.config.productionTip = false
 
+import "@/assets/styles.css"
+
 const router = new VueRouter({
   base: 'public',
   mode: 'history',

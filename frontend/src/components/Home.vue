@@ -1,6 +1,6 @@
 <template>
 <v-container>
-sss
+    home
 </v-container>
 </template>
 

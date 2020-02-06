@@ -1,5 +1,5 @@
 <template>
-    <v-container>test</v-container>
+    <v-container class="menu">test</v-container>
 </template>
 
 <script>
@@ -9,5 +9,4 @@
 </script>
 
 <style scoped>
-
 </style>
