@@ -3,12 +3,14 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import VueRouter from 'vue-router'
 import {routes} from './router.js'
+import "@/assets/styles.css"
+import axios from 'axios'
+
+Vue.prototype.$http = axios
 
 Vue.use(VueRouter)
 
 Vue.config.productionTip = false
-
-import "@/assets/styles.css"
 
 const router = new VueRouter({
   base: 'public',
