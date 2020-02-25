@@ -4,9 +4,6 @@ import vuetify from './plugins/vuetify';
 import VueRouter from 'vue-router'
 import {routes} from './router.js'
 import "@/assets/styles.css"
-import axios from 'axios'
-
-Vue.prototype.$http = axios
 
 Vue.use(VueRouter)
 

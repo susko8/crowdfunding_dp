@@ -15,8 +15,8 @@
 
 <script>
   import Carousel from './CarouselComponent'
-  import vars from '../../dev-env-variables'
   import ProjectCardComponent from '../ProjectCardComponent'
+  import ProjectService from '../../services/project-service'
 
   export default {
     name: 'Home',
@@ -25,7 +25,7 @@
       projects: {}
     }),
     mounted () {
-      this.$http.get(vars.baseURI + '/projects')
+      ProjectService.getAllProjects()
         .then((result) => {
           this.projects = result.data
         })
