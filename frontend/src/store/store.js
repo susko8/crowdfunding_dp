@@ -5,14 +5,23 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    jwtToken: ''
+    jwtToken: '',
+    user: {
+      id: null,
+      login: '',
+      userRole: ''
+    }
   },
   mutations: {
-    change (state, jwtToken) {
+    setJwt (state, jwtToken) {
       state.jwtToken = jwtToken
+    },
+    setUser (state, user) {
+      state.user = user
     }
   },
   getters: {
-    jwtToken: state => state.jwtToken
+    jwtToken: state => state.jwtToken,
+    user: state => state.user
   }
 });

@@ -7,7 +7,13 @@
 
                 <v-spacer></v-spacer>
 
-                <v-btn icon
+                <v-btn v-if="loggedIn" icon
+                       color="#fff"
+                       class="mr-4"
+                       @click="overlay=!overlay">
+                    {{user.login}}
+                </v-btn>
+                <v-btn v-else icon
                        color="#fff"
                        class="mr-4"
                        @click="overlay=!overlay">
@@ -17,7 +23,8 @@
         </v-card>
         <v-overlay :value="overlay"
                    opacity="0.7">
-            <login @close-login="overlay=!overlay"/>
+            <login @close-login="overlay=!overlay"
+                   @login="doLogin()"/>
         </v-overlay>
         <router-view/>
     </v-content>
@@ -31,8 +38,17 @@
     name: 'MainView',
     components: {Login},
     data: () => ({
-      overlay: false
+      overlay: false,
+      loggedIn: false,
+      user: ''
     }),
+    methods: {
+      doLogin () {
+        this.loggedIn = true
+        this.user = this.$store.state.user;
+
+      }
+    }
   }
 </script>
 
