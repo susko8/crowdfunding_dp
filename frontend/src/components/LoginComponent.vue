@@ -85,13 +85,13 @@
         this.loading = true
         AuthenticationService.login(this.loginData)
           .then(response => {
-            this.$store.commit('setJwt', response.data.jwt)
-            this.$store.commit('setUser',
-              {
-                id: response.data.user.id,
-                login: response.data.user.login,
-                userRole: response.data.user.userRoleEnum
-              })
+            let user = {
+              id: response.data.user.id,
+              login: response.data.user.login,
+              userRole: response.data.user.userRoleEnum
+            }
+            localStorage.setItem('jwtToken', response.data.jwt)
+            localStorage.setItem('user', JSON.stringify(user))
             this.$emit('login')
             this.$emit('close-login')
             this.loading = false

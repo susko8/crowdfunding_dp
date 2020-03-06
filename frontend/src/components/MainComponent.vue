@@ -42,11 +42,16 @@
       loggedIn: false,
       user: ''
     }),
+    created () {
+      if (localStorage.getItem('user')) {
+        this.loggedIn = true
+        this.user = JSON.parse(localStorage.getItem('user'))
+      }
+    },
     methods: {
       doLogin () {
         this.loggedIn = true
-        this.user = this.$store.state.user;
-
+        this.user = localStorage.getItem('user')
       }
     }
   }
