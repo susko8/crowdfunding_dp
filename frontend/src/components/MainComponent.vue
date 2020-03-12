@@ -1,7 +1,7 @@
 <template>
     <v-content>
         <v-card>
-            <v-toolbar dense dark>
+            <v-toolbar dense flat dark>
 
                 <v-toolbar-title>Blockchain Crowdfunding</v-toolbar-title>
 
@@ -9,8 +9,7 @@
 
                 <v-btn v-if="loggedIn" icon
                        color="#fff"
-                       class="mr-4"
-                       @click="overlay=!overlay">
+                       class="mr-4">
                     {{user.login}}
                 </v-btn>
                 <v-btn v-else icon
@@ -51,7 +50,7 @@
     methods: {
       doLogin () {
         this.loggedIn = true
-        this.user = localStorage.getItem('user')
+        this.user = JSON.parse(localStorage.getItem('user'))
       }
     }
   }

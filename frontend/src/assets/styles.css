@@ -1,4 +1,33 @@
-.overlay-container{
+.overlay-container {
     min-width: 400px;
     max-width: 600px;
+}
+
+.background-opacity {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.carousel-text-container {
+    margin-left: 90px;
+    margin-top: 10px;
+    padding: 2px 20px 20px 20px;
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
