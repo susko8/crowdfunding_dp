@@ -1,5 +1,5 @@
 .overlay-container {
-    min-width: 400px;
+    min-width: 600px;
     max-width: 600px;
 }
 
@@ -30,4 +30,9 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+
+.home-link:hover {
+    cursor: pointer;
+    opacity: 0.5;
 }

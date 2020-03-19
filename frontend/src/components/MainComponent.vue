@@ -3,25 +3,36 @@
         <v-card>
             <v-toolbar dense flat dark>
 
-                <v-toolbar-title>Blockchain Crowdfunding</v-toolbar-title>
+                <v-toolbar-title class="home-link"
+                                 @click="redirect('home')"
+                >Blockchain Crowdfunding
+                </v-toolbar-title>
 
                 <v-spacer></v-spacer>
 
-                <v-btn v-if="loggedIn" icon
-                       color="#fff"
-                       class="mr-4">
-                    {{user.login}}
-                </v-btn>
-                <v-btn v-else icon
+                <v-btn v-if="!loggedIn"
+                       icon
                        color="#fff"
                        class="mr-4"
                        @click="overlay=!overlay">
                     Login
                 </v-btn>
+                <v-btn v-if="!loggedIn"
+                       icon
+                       color="#fff"
+                       class="mr-4 ml-5"
+                       @click="redirect('register')">
+                    Register
+                </v-btn>
+                <v-btn v-if="loggedIn" icon
+                       color="#fff"
+                       class="mr-4">
+                    {{user.login}}
+                </v-btn>
             </v-toolbar>
         </v-card>
         <v-overlay :value="overlay"
-                   opacity="0.7">
+                   opacity="0.9">
             <login @close-login="overlay=!overlay"
                    @login="doLogin()"/>
         </v-overlay>
@@ -31,7 +42,7 @@
 
 <script>
 
-  import Login from './LoginComponent'
+  import Login from './UserManagement/LoginComponent'
 
   export default {
     name: 'MainView',
@@ -51,6 +62,9 @@
       doLogin () {
         this.loggedIn = true
         this.user = JSON.parse(localStorage.getItem('user'))
+      },
+      redirect (path) {
+        this.$router.push({path: path})
       }
     }
   }

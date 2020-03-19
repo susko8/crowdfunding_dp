@@ -22,11 +22,11 @@
 
 <script>
   import Carousel from './CarouselComponent'
-  import ProjectCardComponent from '../ProjectCardComponent'
+  import ProjectCardComponent from './ProjectCardComponent'
   import ProjectService from '../../services/project-service'
 
   export default {
-    name: 'Home',
+    name: 'HomeComponent',
     components: {ProjectCardComponent, Carousel},
     data: () => ({
       projects: {},

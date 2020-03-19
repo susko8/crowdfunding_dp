@@ -3,8 +3,8 @@ import vars from '../dev-env-variables'
 
 class AuthenticationService {
 
-  getUserFromLogin (loginData) {
-    return axios.post(vars.baseURI + '/authenticate', loginData)
+  register (registerData) {
+    return axios.post(vars.baseURI + '/users/register', registerData)
   }
 
 }

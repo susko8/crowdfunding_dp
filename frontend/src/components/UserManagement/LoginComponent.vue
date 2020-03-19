@@ -2,7 +2,6 @@
     <v-container fluid class="overlay-container">
         <loading v-if="loading"/>
         <div v-else>
-            <h3 class="text-center">Login</h3>
             <v-layout>
                 <v-spacer/>
                 <v-btn
@@ -12,8 +11,10 @@
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
             </v-layout>
+            <h3 class="text-center">Login</h3>
             <v-row>
                 <v-col cols="12">
+                    <h4>Login or email</h4>
                     <v-text-field
                             color="black"
                             solo
@@ -24,11 +25,13 @@
             </v-row>
             <v-row>
                 <v-col cols="12">
+                    <h4>Password</h4>
                     <v-text-field
                             type="password"
                             solo
                             light
                             v-model="loginData.password"
+                            label="Password"
                             placeholder="Password"/>
                 </v-col>
             </v-row>
@@ -45,6 +48,7 @@
                     <v-btn
                             large
                             light
+                            @click="redirect('register')"
                     >Register
                     </v-btn>
                 </v-col>
@@ -65,8 +69,8 @@
 </template>
 
 <script>
-  import AuthenticationService from '../services/authentication-service'
-  import Loading from './Common/Loading'
+  import AuthenticationService from '../../services/authentication-service'
+  import Loading from '../Common/Loading'
 
   export default {
     name: 'Login',
@@ -101,6 +105,10 @@
             this.loading = false
             this.showLoginError = true
           })
+      },
+      redirect (path) {
+        this.$router.push({path: path})
+        this.$emit('close-login')
       }
     }
   }
