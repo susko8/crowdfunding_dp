@@ -22,7 +22,7 @@
                                 color="black"
                                 light
                                 label="First name"
-                                v-model="userData.firstname"
+                                v-model="userData.firstName"
                                 required/>
                     </v-col>
                 </v-row>
@@ -31,7 +31,7 @@
                         <v-text-field
                                 color="black"
                                 light
-                                v-model="userData.lastname"
+                                v-model="userData.lastName"
                                 label="Last name"/>
                     </v-col>
                 </v-row>
@@ -68,9 +68,11 @@
 
 <script>
   import UserService from '../../services/user-service'
+  import Loading from '../Common/Loading'
 
   export default {
     name: 'RegisterComponent',
+    components: {Loading},
     data: () => ({
       userData: {
         login: '',
@@ -80,15 +82,19 @@
       },
       valid: true,
       passwordCheck: '',
-      loading: false
+      loading: false,
+      showSnackbar: false
     }),
     methods: {
       register () {
         this.loading = true
         UserService.register(this.userData)
           .then(response => {
-            this.loading = false
-            console.log(response)
+            if (response.data === true) {
+              this.loading = false
+              // this.showSnackbar = true;
+              this.$router.push('home')
+            }
           })
       }
     }

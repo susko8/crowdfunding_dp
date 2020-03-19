@@ -54,27 +54,18 @@
                 </v-col>
             </v-row>
         </div>
-        <v-snackbar
-                v-model="showLoginError"
-                :timeout="3000"
-        > Bad Credentials.
-            <v-btn
-                    color="white"
-                    text
-                    @click="snackbar = false"
-            > Close
-            </v-btn>
-        </v-snackbar>
+        <snackbar :show="showLoginError" message="Bad credentials."/>
     </v-container>
 </template>
 
 <script>
   import AuthenticationService from '../../services/authentication-service'
   import Loading from '../Common/Loading'
+  import Snackbar from '../Common/SnackbarComponent'
 
   export default {
     name: 'Login',
-    components: {Loading},
+    components: {Snackbar, Loading},
     data: () => ({
       loginData: {
         login: '',

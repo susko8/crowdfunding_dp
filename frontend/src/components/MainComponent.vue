@@ -36,6 +36,7 @@
             <login @close-login="overlay=!overlay"
                    @login="doLogin()"/>
         </v-overlay>
+        <snackbar :show="showSnackbar" :message="snackbarMessage"/>
         <router-view/>
     </v-content>
 </template>
@@ -43,15 +44,25 @@
 <script>
 
   import Login from './UserManagement/LoginComponent'
+  import Snackbar from './Common/SnackbarComponent'
 
   export default {
     name: 'MainView',
-    components: {Login},
+    components: {Snackbar, Login},
     data: () => ({
       overlay: false,
       loggedIn: false,
-      user: ''
+      user: '',
+      showSnackbar: false,
+      snackbarMessage: ''
     }),
+    watch: {
+      $route (to, from) {
+        if (from.name === 'register') {
+          this.message('Registration success. Now, you can login')
+        }
+      }
+    },
     created () {
       if (localStorage.getItem('user')) {
         this.loggedIn = true
@@ -65,6 +76,10 @@
       },
       redirect (path) {
         this.$router.push({path: path})
+      },
+      message (msg) {
+        this.showSnackbar = true
+        this.snackbarMessage = msg
       }
     }
   }
