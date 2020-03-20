@@ -24,11 +24,22 @@
                        @click="redirect('register')">
                     Register
                 </v-btn>
-                <v-btn v-if="loggedIn" icon
-                       color="#fff"
-                       class="mr-4">
-                    {{user.login}}
-                </v-btn>
+                <v-menu offset-y v-if="loggedIn">
+                    <template v-slot:activator="{ on }">
+                        <v-btn icon
+                               color="#fff"
+                               class="mr-4"
+                               v-on="on">
+                            {{user.login}}
+                        </v-btn>
+                    </template>
+                    <v-list>
+                        <v-list-item
+                                @click="logout()">
+                            <v-list-item-title>Logout</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
             </v-toolbar>
         </v-card>
         <v-overlay :value="overlay"
@@ -80,6 +91,10 @@
       message (msg) {
         this.showSnackbar = true
         this.snackbarMessage = msg
+      },
+      logout () {
+        localStorage.clear();
+        location.reload()
       }
     }
   }
