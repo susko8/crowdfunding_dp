@@ -26,12 +26,10 @@
                 </v-btn>
                 <v-menu offset-y v-if="loggedIn">
                     <template v-slot:activator="{ on }">
-                        <v-btn icon
-                               color="#fff"
-                               class="mr-4"
+                        <span  class="mr-4 login"
                                v-on="on">
                             {{user.login}}
-                        </v-btn>
+                        </span>
                     </template>
                     <v-list>
                         <v-list-item
@@ -44,10 +42,18 @@
         </v-card>
         <v-overlay :value="overlay"
                    opacity="0.9">
-            <login @close-login="overlay=!overlay"
-                   @login="doLogin()"/>
+            <login @close-login="overlay=!overlay"/>
         </v-overlay>
-        <snackbar :show="showSnackbar" :message="snackbarMessage"/>
+        <v-snackbar
+                v-model="snackBar.show"
+                :color="snackBar.color"
+        > {{snackBar.message}}
+            <v-btn
+                    color="white"
+                    text
+            > Close
+            </v-btn>
+        </v-snackbar>
         <router-view/>
     </v-content>
 </template>
@@ -55,46 +61,45 @@
 <script>
 
   import Login from './UserManagement/LoginComponent'
-  import Snackbar from './Common/SnackbarComponent'
+  import AuthenticationService from './../services/authentication-service'
 
   export default {
     name: 'MainView',
-    components: {Snackbar, Login},
+    components: {Login},
     data: () => ({
       overlay: false,
       loggedIn: false,
       user: '',
-      showSnackbar: false,
-      snackbarMessage: ''
+      snackBar: {
+        show: false,
+        message: '',
+        color: ''
+      }
     }),
     watch: {
       $route (to, from) {
         if (from.name === 'register') {
-          this.message('Registration success. Now, you can login')
+          this.message('Registration success. Now, you can login','info')
         }
       }
     },
     created () {
       if (localStorage.getItem('user')) {
         this.loggedIn = true
-        this.user = JSON.parse(localStorage.getItem('user'))
+        this.user = AuthenticationService.getUser()
       }
     },
     methods: {
-      doLogin () {
-        this.loggedIn = true
-        this.user = JSON.parse(localStorage.getItem('user'))
-      },
       redirect (path) {
         this.$router.push({path: path})
       },
-      message (msg) {
-        this.showSnackbar = true
-        this.snackbarMessage = msg
+      message (msg, color) {
+        this.snackBar.show = true
+        this.snackBar.message = msg
+        this.snackBar.color = color
       },
       logout () {
-        localStorage.clear();
-        location.reload()
+        AuthenticationService.logout()
       }
     }
   }

@@ -12,8 +12,8 @@
                                 color="black"
                                 light
                                 v-model="userData.login"
-                                label="Login or email"
-                                required/>
+                                :rules="loginRules"
+                                label="Login or email"/>
                     </v-col>
                 </v-row>
                 <v-row>
@@ -21,9 +21,9 @@
                         <v-text-field
                                 color="black"
                                 light
+                                :rules="nameRules"
                                 label="First name"
-                                v-model="userData.firstName"
-                                required/>
+                                v-model="userData.firstName"/>
                     </v-col>
                 </v-row>
                 <v-row>
@@ -31,6 +31,7 @@
                         <v-text-field
                                 color="black"
                                 light
+                                :rules="nameRules"
                                 v-model="userData.lastName"
                                 label="Last name"/>
                     </v-col>
@@ -39,7 +40,9 @@
                     <v-col cols="12">
                         <v-text-field
                                 type="password"
+                                id="pass"
                                 light
+                                :rules="passwordRules"
                                 v-model="userData.password"
                                 label="Password"/>
                     </v-col>
@@ -48,21 +51,33 @@
                     <v-col cols="12">
                         <v-text-field
                                 type="password"
+                                id="passCheck"
                                 light
+                                :rules="passwordRules"
                                 v-model="passwordCheck"
                                 label="Repeat Password"/>
                     </v-col>
                 </v-row>
+                <v-row class="text-center">
+                    <v-btn
+                            class="margin-auto"
+                            large
+                            @click="register()"
+                    >Register
+                    </v-btn>
+                </v-row>
             </v-form>
-            <v-row class="text-center">
-                <v-btn
-                        style="margin: auto"
-                        large
-                        @click="register()"
-                >Register
-                </v-btn>
-            </v-row>
         </div>
+        <v-snackbar
+                v-model="snackBar.show"
+                :color="snackBar.color"
+        > {{snackBar.message}}
+            <v-btn
+                    color="white"
+                    text
+            > Close
+            </v-btn>
+        </v-snackbar>
     </v-container>
 </template>
 
@@ -80,23 +95,54 @@
         firstName: '',
         lastName: '',
       },
+      snackBar: {
+        show: false,
+        message: '',
+        color: ''
+      },
       valid: true,
+      loginRules: [
+        v => !!v || 'Name is required',
+        v => (v && v.length <= 25) || 'Login must be less than 10 characters',
+        v => (v && v.length >= 4) || 'Login must be more than 4 characters',
+      ],
+      nameRules: [
+        v => !!v || 'Field is Required'
+      ],
+      passwordRules: [
+        v => !!v || 'Password is required',
+        v => (v && v.length > 5) || 'Password must be more than 5 characters',
+      ],
       passwordCheck: '',
       loading: false,
-      showSnackbar: false
+      showSnackbar: false,
+      snackbarMessage: ''
     }),
     methods: {
       register () {
-        this.loading = true
-        UserService.register(this.userData)
-          .then(response => {
-            if (response.data === true) {
-              this.loading = false
-              // this.showSnackbar = true;
-              this.$router.push('home')
-            }
-          })
-      }
+        if (this.validate()) {
+          if (this.userData.password !== this.passwordCheck) {
+            this.message('Passwords must match', 'error')
+            return;
+          }
+          this.loading = true
+          UserService.register(this.userData)
+            .then(response => {
+              if (response.data === true) {
+                this.loading = false
+                this.$router.push('home')
+              }
+            })
+        }
+      },
+      message (msg, color) {
+        this.snackBar.show = true
+        this.snackBar.message = msg
+        this.snackBar.color = color
+      },
+      validate () {
+        return this.$refs.form.validate()
+      },
     }
   }
 </script>

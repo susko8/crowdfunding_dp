@@ -36,3 +36,23 @@
     cursor: pointer;
     opacity: 0.5;
 }
+
+.margin-auto {
+    margin: auto;
+}
+
+.login {
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-transform: uppercase;
+}
+
+.login:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}

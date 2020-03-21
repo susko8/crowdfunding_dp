@@ -54,22 +54,35 @@
                 </v-col>
             </v-row>
         </div>
-        <snackbar :show="showLoginError" message="Bad credentials."/>
+        <v-snackbar
+                v-model="snackBar.show"
+                :color="snackBar.color"
+        > {{snackBar.message}}
+            <v-btn
+                    color="white"
+                    text
+            > Close
+            </v-btn>
+        </v-snackbar>
     </v-container>
 </template>
 
 <script>
   import AuthenticationService from '../../services/authentication-service'
   import Loading from '../Common/Loading'
-  import Snackbar from '../Common/SnackbarComponent'
 
   export default {
     name: 'Login',
-    components: {Snackbar, Loading},
+    components: {Loading},
     data: () => ({
       loginData: {
         login: '',
         password: ''
+      },
+      snackBar: {
+        show: false,
+        message: '',
+        color: ''
       },
       token: null,
       loading: false,
@@ -85,21 +98,23 @@
               login: response.data.user.login,
               userRole: response.data.user.userRoleEnum
             }
-            localStorage.setItem('jwtToken', response.data.jwt)
-            localStorage.setItem('user', JSON.stringify(user))
-            this.$emit('login')
-            this.$emit('close-login')
-            this.loading = false
+            AuthenticationService.setToken(response.data.jwt, user)
+            location.reload()
           })
-          .catch(err => {
-            console.log(err)
-            this.loading = false
-            this.showLoginError = true
-          })
+          .catch(() => {
+              this.message('Bad credentials', 'error')
+              this.loading = false
+            }
+          )
       },
       redirect (path) {
         this.$router.push({path: path})
         this.$emit('close-login')
+      },
+      message (msg, color) {
+        this.snackBar.show = true
+        this.snackBar.message = msg
+        this.snackBar.color = color
       }
     }
   }

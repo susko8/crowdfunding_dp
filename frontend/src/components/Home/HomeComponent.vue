@@ -2,6 +2,9 @@
     <v-content>
         <carousel/>
             <v-container fluid>
+                <v-row v-if="user">
+                    <v-btn>Create Project</v-btn>
+                </v-row>
                 <v-row>
                     <v-col cols="12" sm="4" md="3" lg="3"
                            v-for="project of projects"
@@ -24,6 +27,7 @@
   import Carousel from './CarouselComponent'
   import ProjectCardComponent from './ProjectCardComponent'
   import ProjectService from '../../services/project-service'
+  import AuthenticationService from '../../services/authentication-service'
 
   export default {
     name: 'HomeComponent',
@@ -33,6 +37,9 @@
       page: 1,
       numberOfPages: 1
     }),
+    computed: {
+      user: () => AuthenticationService.getUser()
+    },
     mounted () {
       ProjectService.getAllProjects()
         .then((result) => {
