@@ -1,9 +1,11 @@
 <template>
     <v-content>
         <carousel/>
-            <v-container fluid>
-                <v-row v-if="user">
-                    <v-btn>Create Project</v-btn>
+            <v-container>
+                <v-row v-if="user" class="ma-3">
+                    <v-btn outlined large>
+                        <v-icon class="mr-5">mdi-plus-circle</v-icon>
+                        Create Project</v-btn>
                 </v-row>
                 <v-row>
                     <v-col cols="12" sm="4" md="3" lg="3"

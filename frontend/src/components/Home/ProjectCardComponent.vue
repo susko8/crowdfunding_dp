@@ -1,9 +1,10 @@
 <template>
-    <v-card class="mx-auto"
+    <v-card class="mx-auto pointer"
             max-width="400"
             min-width="400"
             min-height="400"
-            max-height="400">
+            max-height="400"
+            @click="redirectToProject(project)">
         <v-img
                 class="white--text align-end"
                 height="200px"
@@ -54,6 +55,11 @@
         progress: 50
       }
     },
+    methods: {
+      redirectToProject (project) {
+        this.$router.push('project/' + project.id)
+      }
+    }
   }
 </script>
 

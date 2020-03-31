@@ -1,5 +1,6 @@
 import HomeComponent from './components/Home/HomeComponent'
 import RegisterComponent from './components/UserManagement/RegisterComponent'
+import ProjectDetailComponent from './components/Project/ProjectDetailComponent'
 
 export const routes = [
   {
@@ -16,6 +17,11 @@ export const routes = [
     path: '/register',
     name: 'register',
     component: RegisterComponent
+  },
+  {
+    path: '/project/:id',
+    name: 'project',
+    component: ProjectDetailComponent
   }
 ]
 
