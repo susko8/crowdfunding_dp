@@ -7,6 +7,10 @@ class ProjectService {
     return axios.get(vars.baseURI + '/projects')
   }
 
+  getOneProject (projectId) {
+    return axios.get(vars.baseURI + '/projects/' + projectId)
+  }
+
 }
 
 export default new ProjectService()

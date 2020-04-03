@@ -24,7 +24,8 @@
                        @click="redirect('register')">
                     Register
                 </v-btn>
-                <v-menu offset-y v-if="loggedIn">
+                <v-menu offset-y v-if="loggedIn"
+                        open-on-hover>
                     <template v-slot:activator="{ on }">
                         <span  class="mr-4 login"
                                v-on="on">
