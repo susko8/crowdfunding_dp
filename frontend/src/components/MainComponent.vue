@@ -3,11 +3,11 @@
         <v-card>
             <v-toolbar dense flat dark>
 
-                <v-toolbar-title class="home-link"
-                                 @click="redirect('home')"
-                >Blockchain Crowdfunding
-                </v-toolbar-title>
-
+                <router-link to="/home">
+                    <v-toolbar-title class="home-link"
+                    >Blockchain Crowdfunding
+                    </v-toolbar-title>
+                </router-link>
                 <v-spacer></v-spacer>
 
                 <v-btn v-if="!loggedIn"
@@ -107,5 +107,8 @@
 </script>
 
 <style scoped>
-
+    a {
+        text-decoration: none;
+        color: white !important;
+    }
 </style>

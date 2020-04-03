@@ -4,8 +4,8 @@
 
             <v-img
                     class="white--text align-end"
-                    height="200px"
                     :src="project.src"
+                    height="500px"
             >
             </v-img>
             <v-card-title>{{project.name}}</v-card-title>
@@ -17,7 +17,6 @@
             </v-card-text>
 
             <v-progress-linear
-                    v-model="progress"
                     color="grey accent-4"
                     striped
                     height="15"
@@ -38,8 +37,7 @@
     mounted () {
       ProjectService.getOneProject(this.$route.params.id)
         .then((res) => {
-          this.project = res
-          console.log(res)
+          this.project = res.data
         })
     },
     data: () => ({

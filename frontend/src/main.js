@@ -16,6 +16,7 @@ Vue.config.productionTip = false
 axios.interceptors.request.use(
   config => {
     const token = localStorage.getItem('jwtToken')
+    config.headers['X-Requested-With'] = 'XMLHttpRequest'
     if (token) {
       config.headers['Authorization'] = 'Bearer ' + token
     }
