@@ -24,7 +24,7 @@
                     </v-card-text>
                     <div class="progress-bar">
                         <v-progress-linear
-                                color="grey accent-4"
+                                color="#4b830d"
                                 striped
                                 height="15"
                         >

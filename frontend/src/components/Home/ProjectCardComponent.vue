@@ -1,14 +1,14 @@
 <template>
-    <v-card class="mx-auto pointer"
+    <v-card class="mx-auto"
             max-width="400"
             min-width="400"
             min-height="400"
-            max-height="400"
-            @click="redirectToProject(project)">
+            max-height="400">
         <v-img
-                class="white--text align-end"
+                class="white--text align-end pointer"
                 height="200px"
                 :src="project.src"
+                @click="redirectToProject(project)"
         >
         </v-img>
         <v-card-title>{{project.name}}</v-card-title>
@@ -21,7 +21,7 @@
 
         <v-progress-linear
                 v-model="progress"
-                color="grey accent-4"
+                color="#7cb342"
                 striped
                 height="15"
         >
@@ -30,17 +30,22 @@
             </template>
         </v-progress-linear>
 
-        <v-card-actions>
+        <v-card-actions class="mt-2">
             <v-btn
+                    outlined small
                     color="#1E1E1E"
                     text>
+                <v-icon class="mr-2">payment</v-icon>
                 Contribute
             </v-btn>
 
             <v-btn
+                    outlined small
                     color="#1E1E1E"
-                    text>
-                Read more...
+                    text
+                    @click="redirectToProject(project)">
+                <v-icon class="mr-2">more_horiz</v-icon>
+                Read more
             </v-btn>
         </v-card-actions>
     </v-card>

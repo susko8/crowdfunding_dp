@@ -4,7 +4,7 @@
             <v-container>
                 <v-row v-if="user" class="ma-3">
                     <v-btn outlined large @click="redirect('project-new')">
-                        <v-icon class="mr-5">mdi-plus-circle</v-icon>
+                        <v-icon class="mr-5">mdi-plus-circle-outline</v-icon>
                         Create Project
                     </v-btn>
                 </v-row>
@@ -17,6 +17,7 @@
                 </v-row>
                 <div class="text-center">
                     <v-pagination
+                            color="#4b830d"
                             v-model="page"
                             :length="numberOfPages"
                             circle

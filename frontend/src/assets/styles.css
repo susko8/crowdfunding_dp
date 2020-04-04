@@ -60,3 +60,17 @@
 .pointer{
     cursor: pointer;
 }
+
+.color-secondary{
+    color: #7cb342;
+}
+
+.color-secondary-light{
+    color: #aee571;
+}
+
+.color-secondary-dark{
+    color: #4b830d;
+}
+
+
