@@ -8,10 +8,12 @@ import Vuex from 'vuex'
 import 'es6-promise/auto'
 import {store} from './store/store'
 import axios from 'axios'
+import VueDisqus from 'vue-disqus'
 
 Vue.use(Vuex)
 Vue.use(VueRouter)
 Vue.config.productionTip = false
+Vue.use(VueDisqus)
 
 axios.interceptors.request.use(
   config => {
