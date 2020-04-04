@@ -1,6 +1,7 @@
 import HomeComponent from './components/Home/HomeComponent'
 import RegisterComponent from './components/UserManagement/RegisterComponent'
 import ProjectDetailComponent from './components/Project/ProjectDetailComponent'
+import AddProjectComponent from './components/Project/AddProjectComponent'
 
 export const routes = [
   {
@@ -22,6 +23,11 @@ export const routes = [
     path: '/project/:id',
     name: 'project',
     component: ProjectDetailComponent
+  },
+  {
+    path: '/project-new',
+    name: 'project-new',
+    component: AddProjectComponent
   }
 ]
 

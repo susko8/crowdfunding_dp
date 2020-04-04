@@ -3,9 +3,10 @@
         <carousel/>
             <v-container>
                 <v-row v-if="user" class="ma-3">
-                    <v-btn outlined large>
+                    <v-btn outlined large @click="redirect('project-new')">
                         <v-icon class="mr-5">mdi-plus-circle</v-icon>
-                        Create Project</v-btn>
+                        Create Project
+                    </v-btn>
                 </v-row>
                 <v-row>
                     <v-col cols="12" sm="4" md="3" lg="3"
@@ -48,6 +49,11 @@
           this.projects = result.data
           this.numberOfPages = Math.round(this.projects.length / 8)
         })
+    },
+    methods: {
+      redirect (path) {
+        this.$router.push({path: path})
+      }
     }
   }
 </script>
