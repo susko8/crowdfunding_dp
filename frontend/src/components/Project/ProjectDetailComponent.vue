@@ -14,7 +14,8 @@
                 <v-col lg="6" sm="12" class="mt-2">
                     <v-card-title class="display-3">{{project.name}}</v-card-title>
 
-                    <v-card-subtitle class="text-right mr-12">{{'12.3.2020'}}</v-card-subtitle>
+                    <v-card-subtitle class="text-right mr-12 pb-0">{{'12.3.2020'}}</v-card-subtitle>
+                    <v-card-subtitle class="text-right mr-12 pt-0">Created By: {{project.createdBy}}</v-card-subtitle>
 
                     <v-card-text class="text--primary subtitle-1 project-description">
                         <div>{{project.description}}</div>

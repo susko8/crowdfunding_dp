@@ -11,6 +11,10 @@ class ProjectService {
     return axios.get(vars.baseURI + '/projects/' + projectId)
   }
 
+  createNewProject(projectData){
+    console.log(projectData);
+  }
+
 }
 
 export default new ProjectService()
