@@ -9,11 +9,15 @@ import 'es6-promise/auto'
 import {store} from './store/store'
 import axios from 'axios'
 import VueDisqus from 'vue-disqus'
+import firebase from 'firebase';
+import vars from './dev-env-variables.js'
 
 Vue.use(Vuex)
 Vue.use(VueRouter)
 Vue.config.productionTip = false
 Vue.use(VueDisqus)
+firebase.initializeApp(vars.firebaseConfig);
+firebase.analytics();
 
 axios.interceptors.request.use(
   config => {

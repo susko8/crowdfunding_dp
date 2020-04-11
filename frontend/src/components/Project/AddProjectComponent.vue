@@ -26,6 +26,19 @@
                                 v-model="projectData.description"/>
                     </v-col>
                 </v-row>
+                <v-row class="justify-center pb-3">
+                    <vue-dropzone
+                            ref="imgDropZone"
+                            id="customdropzone"
+                            :options="dropzoneOptions"
+                            @vdropzone-complete="afterComplete"
+                    ></vue-dropzone>
+                    <div v-if="images.length > 0" class="image-div">
+                        <div v-for="image in images" :key="image.src">
+                            <img :src="image.src" class="image"/>
+                        </div>
+                    </div>
+                </v-row>
                 <v-row class="text-center">
                     <v-btn
                             class="margin-auto"
@@ -52,15 +65,22 @@
 <script>
   import ProjectService from '../../services/project-service'
   import Loading from '../Common/Loading'
+  import AuthenticationService from '../../services/authentication-service'
+  import firebase from 'firebase'
+  import vue2Dropzone from 'vue2-dropzone'
+  import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+
+  let uuid = require('uuid')
 
   export default {
     name: 'AddProjectComponent',
-    components: {Loading},
+    components: {Loading, vueDropzone: vue2Dropzone},
     data: () => ({
       projectData: {
         name: '',
         description: '',
         src: '',
+        createdBy: Number
       },
       snackBar: {
         show: false,
@@ -78,20 +98,34 @@
       ],
       loading: false,
       showSnackbar: false,
-      snackbarMessage: ''
+      snackbarMessage: '',
+      dropzoneOptions: {
+        url: 'https://httpbin.org/post',
+        thumbnailWidth: 150,
+        thumbnailHeight: 150,
+        addRemoveLinks: false,
+        acceptedFiles: '.jpg, .jpeg, .png',
+        dictDefaultMessage: `<p class='text-default'><i class='fa fa-cloud-upload mr-2'></i> Drag Images or Click Here</p>
+          <p class="form-text">Allowed Files: .jpg, .jpeg, .png</p>`,
+      },
+      images: []
     }),
+    mounted () {
+      this.projectData.createdBy = AuthenticationService.getUser().id
+    },
     methods: {
       createProject () {
         if (this.validate()) {
           this.loading = true
           ProjectService.createNewProject(this.projectData)
             .then(response => {
-              if (response.data === true) {
-                this.loading = false
-                //this.$router.push('home')
-              }
+              this.loading = false
+              this.redirect('/project/' + response.data.id)
             })
         }
+      },
+      redirect (path) {
+        this.$router.replace({path: path})
       },
       message (msg, color) {
         this.snackBar.show = true
@@ -101,6 +135,22 @@
       validate () {
         return this.$refs.form.validate()
       },
+      afterComplete (image) {
+        let imageName = uuid.v1()
+        if (image) {
+          let storageRef = firebase.storage().ref()
+          let imageRef = storageRef.child(`images/${imageName}.png`)
+          imageRef.put(image, {
+            contentType: 'image/png'
+          })
+            .then(() => {
+              imageRef.getDownloadURL().then(res => {
+                  this.projectData.src = res
+                }
+              )
+            })
+        }
+      }
     }
   }
 </script>
