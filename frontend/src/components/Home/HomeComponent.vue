@@ -21,6 +21,7 @@
                             v-model="page"
                             :length="numberOfPages"
                             circle
+                            in
                     ></v-pagination>
                 </div>
             </v-container>
@@ -48,7 +49,7 @@
       ProjectService.getAllProjects()
         .then((result) => {
           this.projects = result.data
-          this.numberOfPages = Math.round(this.projects.length / 8)
+          this.numberOfPages = Math.ceil(this.projects.length / 12)
         })
     },
     methods: {
