@@ -6,32 +6,42 @@ contract Crowdfunding {
         uint projectId;
         uint targetSum;
         uint actualSum;
+        address owner;
     }
 
-    Project[] public projects;
+    Project[] projects;
 
     constructor() public{
-        projects.push(Project(1, 20, 0));
-        projects.push(Project(2, 20, 0));
-        projects.push(Project(3, 20, 0));
-        projects.push(Project(4, 20, 0));
-        projects.push(Project(5, 20, 0));
-        projects.push(Project(6, 20, 0));
+        projects.push(Project(1, 20, 0, 0x20096293CCFCf8A78EC787666EaC566fd3Df6A37));
+        projects.push(Project(2, 20, 3, 0x20096293CCFCf8A78EC787666EaC566fd3Df6A37));
+        projects.push(Project(3, 20, 2, 0x20096293CCFCf8A78EC787666EaC566fd3Df6A37));
+        projects.push(Project(4, 20, 4, 0x20096293CCFCf8A78EC787666EaC566fd3Df6A37));
+        projects.push(Project(5, 20, 19, 0x20096293CCFCf8A78EC787666EaC566fd3Df6A37));
+        projects.push(Project(6, 20, 2, 0x20096293CCFCf8A78EC787666EaC566fd3Df6A37));
     }
 
-    function addNewProject(uint _projectid, uint _targetSum, uint _startingSum) public {
-        projects.push(Project(_projectid, _targetSum, _startingSum));
+    function addNewProject(uint _projectid, uint _targetSum) public {
+        projects.push(Project(_projectid, _targetSum, 0, msg.sender));
     }
-//
-//    function contributeToProject(uint _projectId, uint _sum) payable public {
-//        for (uint i = 0; i < projects.length; i++) {
-//            if (projects[i].projectId() == _projectId) {
-//                projects[i].contribute(_sum);
-//            }
-//        }
-//    }
+
+    function contributeToProject(uint _projectId, uint _sum) payable public {
+        for (uint i = 0; i < projects.length; i++) {
+            if (projects[i].projectId == _projectId) {
+                projects[i].actualSum = projects[i].actualSum + _sum;
+            }
+        }
+    }
 
     function getNumberProjects() public view returns (uint) {
         return projects.length;
+    }
+
+    function getActualSumOfProject(uint _projectId) public view returns (uint){
+        for (uint i = 0; i < projects.length; i++) {
+            if (projects[i].projectId == _projectId) {
+                return projects[i].actualSum;
+            }
+        }
+        return 0;
     }
 }
