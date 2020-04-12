@@ -36,6 +36,15 @@ contract Crowdfunding {
         return projects.length;
     }
 
+    function getActualProjectStatus(uint _projectId) public view returns (uint, uint) {
+        for (uint i = 0; i < projects.length; i++) {
+            if (projects[i].projectId == _projectId) {
+                return (projects[i].actualSum, projects[i].targetSum);
+            }
+        }
+        return (0,0);
+    }
+
     function getActualSumOfProject(uint _projectId) public view returns (uint){
         for (uint i = 0; i < projects.length; i++) {
             if (projects[i].projectId == _projectId) {

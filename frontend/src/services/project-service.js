@@ -7,7 +7,7 @@ class ProjectService {
     return axios.get(vars.baseURI + '/projects')
   }
 
-  getOneProject (projectId) {
+  async getOneProject (projectId) {
     return axios.get(vars.baseURI + '/projects/' + projectId)
   }
 

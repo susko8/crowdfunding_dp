@@ -2,19 +2,22 @@ import Contracts from './contracts'
 
 class CrowdfundingContract {
   init (store) {
-     Contracts.initializeContracts()
-     this.store = store
+    Contracts.initializeContracts()
+    this.store = store
   }
 
-  async getProjects(){
-    const crowdfundingContract = await this.initCrowdfundingContract();
-    let result = await crowdfundingContract.getNumberProjects({from: this.store.state.web3.coinbase});
-    console.log(result.toFixed());
-    return result;
+  async getNumberProjects () {
+    const crowdfundingContract = await this.initCrowdfundingContract()
+    return await crowdfundingContract.getNumberProjects({from: this.store.state.web3.coinbase})
+  }
+
+  async getActualProjectStatus (projectId) {
+    const crowdfundingContract = await this.initCrowdfundingContract()
+    return await crowdfundingContract.getActualProjectStatus(projectId, {from: this.store.state.web3.coinbase})
   }
 
   async initCrowdfundingContract () {
-     return await Contracts.getCrowdfundingContract()
+    return await Contracts.getCrowdfundingContract()
   }
 }
 

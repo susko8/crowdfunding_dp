@@ -25,6 +25,7 @@
                     </v-card-text>
                     <div class="progress-bar">
                         <v-progress-linear
+                                :value="status"
                                 color="#4b830d"
                                 striped
                                 height="15"
@@ -54,15 +55,27 @@
   export default {
     name: 'ProjectDetailComponent',
     components: {DisqusComponent},
-    mounted () {
+    async mounted () {
       ProjectService.getOneProject(this.$route.params.id)
         .then((res) => {
           this.project = res.data
+          this.getProjectStatus(this.project.id).then(res => {
+            console.log(res)
+            this.status = res
+            }
+          )
         })
     },
     data: () => ({
-      project: {}
-    })
+      project: {},
+      status:0
+    }),
+    methods:{
+      async getProjectStatus (projectId) {
+        let status = await this.$blockchain.getActualProjectStatus(projectId);
+        return status[0].toFixed() / status[1].toFixed() * 100;
+      }
+    }
   }
 </script>
 

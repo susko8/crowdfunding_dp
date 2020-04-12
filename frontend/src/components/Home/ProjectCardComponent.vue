@@ -60,9 +60,16 @@
         progress: 50
       }
     },
+    async created () {
+      this.progress = await this.getProjectStatus(this.project.id);
+    },
     methods: {
       redirectToProject (project) {
         this.$router.push('project/' + project.id)
+      },
+      async getProjectStatus (projectId) {
+        let status = await this.$blockchain.getActualProjectStatus(projectId);
+        return status[0].toFixed() / status[1].toFixed() * 100;
       }
     }
   }
