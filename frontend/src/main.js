@@ -6,7 +6,7 @@ import {routes} from './router.js'
 import '@/assets/styles.css'
 import Vuex from 'vuex'
 import 'es6-promise/auto'
-import {store} from './store/store'
+import {store} from './store/'
 import axios from 'axios'
 import VueDisqus from 'vue-disqus'
 import firebase from 'firebase';
