@@ -20,12 +20,13 @@
                     <v-card-text class="text--primary subtitle-1 project-description">
                         <div>{{project.description}}</div>
                     </v-card-text>
-                    <v-card-text class="text--primary project-description subtitle-1    ">
-                        <div>Contributions:</div>
+                    <v-card-text class="text--primary project-description subtitle-1 pb-2">
+                        Contributions:
                     </v-card-text>
+                    <v-card-subtitle class="text-center pb-2 pt-0">Contributed: {{actual + ' ETH of - ' + target + ' ETH'}}</v-card-subtitle>
                     <div class="progress-bar">
                         <v-progress-linear
-                                :value="status"
+                                :value="progress"
                                 color="#4b830d"
                                 striped
                                 height="15"
@@ -59,21 +60,23 @@
       ProjectService.getOneProject(this.$route.params.id)
         .then((res) => {
           this.project = res.data
-          this.getProjectStatus(this.project.id).then(res => {
-            console.log(res)
-            this.status = res
+          this.getProjectStatus(this.project.id).then(status => {
+              this.progress = status[0].toFixed() / status[1].toFixed() * 100;
+              this.actual = status[0].toFixed();
+              this.target = status[1].toFixed();
             }
           )
         })
     },
     data: () => ({
       project: {},
-      status:0
+      progress: -1,
+      actual: -1,
+      target: -1
     }),
     methods:{
       async getProjectStatus (projectId) {
-        let status = await this.$blockchain.getActualProjectStatus(projectId);
-        return status[0].toFixed() / status[1].toFixed() * 100;
+        return await this.$blockchain.getActualProjectStatus(projectId);
       }
     }
   }

@@ -2,8 +2,8 @@
     <v-card class="mx-auto"
             max-width="400"
             min-width="400"
-            min-height="400"
-            max-height="400">
+            min-height="420"
+            max-height="420">
         <v-img
                 class="white--text align-end pointer"
                 height="200px"
@@ -15,9 +15,11 @@
 
         <v-card-subtitle class="pb-0">{{'12.3.2020'}}</v-card-subtitle>
 
-        <v-card-text class="text--primary project-description">
+        <v-card-text class="text--primary project-description pb-0 mb-0">
             <div>{{project.description}}</div>
         </v-card-text>
+
+        <v-card-subtitle class="pb-2 pt-0 text-center">Contributed: {{actual + ' ETH of - ' + target + ' ETH'}}</v-card-subtitle>
 
         <v-progress-linear
                 v-model="progress"
@@ -57,11 +59,13 @@
     props: ['project'],
     data () {
       return {
-        progress: 50
+        progress: -1,
+        actual: -1,
+        target: -1
       }
     },
     async created () {
-      this.progress = await this.getProjectStatus(this.project.id);
+      await this.getProjectStatus(this.project.id);
     },
     methods: {
       redirectToProject (project) {
@@ -69,7 +73,9 @@
       },
       async getProjectStatus (projectId) {
         let status = await this.$blockchain.getActualProjectStatus(projectId);
-        return status[0].toFixed() / status[1].toFixed() * 100;
+        this.actual = await status[0].toFixed()
+        this.target = await status[1].toFixed()
+        this.progress = await status[0].toFixed() / status[1].toFixed() * 100;
       }
     }
   }
