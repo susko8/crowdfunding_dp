@@ -11,6 +11,7 @@ import axios from 'axios'
 import VueDisqus from 'vue-disqus'
 import firebase from 'firebase';
 import vars from './dev-env-variables.js'
+import AppPlugin from './plugins/AppPlugin'
 
 Vue.use(Vuex)
 Vue.use(VueRouter)
@@ -18,6 +19,8 @@ Vue.config.productionTip = false
 Vue.use(VueDisqus)
 firebase.initializeApp(vars.firebaseConfig);
 firebase.analytics();
+
+Vue.use(AppPlugin, { store })
 
 axios.interceptors.request.use(
   config => {

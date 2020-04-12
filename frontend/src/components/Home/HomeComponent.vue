@@ -45,12 +45,13 @@
     computed: {
       user: () => AuthenticationService.getUser()
     },
-    mounted () {
+    async mounted () {
       ProjectService.getAllProjects()
         .then((result) => {
           this.projects = result.data
           this.numberOfPages = Math.ceil(this.projects.length / 12)
         })
+       await this.$blockchain.getProjects();
     },
     methods: {
       redirect (path) {
