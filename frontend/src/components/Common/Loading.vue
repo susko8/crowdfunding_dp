@@ -16,7 +16,8 @@
         <div v-else>
             <div>
                 <v-row justify="center">
-                    <h4>Please wait</h4>
+                    <h4 v-if="text">{{text}}</h4>
+                    <h4 v-if="!text">Please wait</h4>
                 </v-row>
                 <v-row justify="center">
                     <v-progress-circular
@@ -32,7 +33,7 @@
 <script>
   export default {
     name: 'Loading',
-    props: ['overlay']
+    props: ['overlay','text']
   }
 </script>
 

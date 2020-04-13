@@ -1,6 +1,6 @@
 <template>
     <v-container fluid class="overlay-container">
-        <loading v-if="loading"/>
+        <loading v-if="loading" :text="'Please complete Transaction'"/>
         <div v-else>
             <v-form
                     ref="form"
@@ -26,6 +26,21 @@
                                 v-model="projectData.description"/>
                     </v-col>
                 </v-row>
+                <v-row>
+                    <v-col cols="12">
+                        <v-text-field
+                                color="black"
+                                type="number"
+                                light
+                                suffix="ETH"
+                                @blur="convertDecimalAndGetEuro()"
+                                label="Target Sum"
+                                v-model="targetSum"/>
+                    </v-col>
+                </v-row>
+                <div v-if="targetSum" class="pb-3">
+                    Target Sum in eur: {{(targetSum * etherPrice).toFixed(2)}} €
+                </div>
                 <v-row class="justify-center pb-3">
                     <vue-dropzone
                             ref="imgDropZone"
@@ -69,6 +84,7 @@
   import firebase from 'firebase'
   import vue2Dropzone from 'vue2-dropzone'
   import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+  import CoinPriceService from '../../services/coin-price-service'
 
   let uuid = require('uuid')
 
@@ -87,6 +103,8 @@
         message: '',
         color: ''
       },
+      targetSum: 0,
+      etherPrice: '',
       valid: true,
       nameRules: [
         v => !!v || 'Name is required',
@@ -112,6 +130,9 @@
     }),
     mounted () {
       this.projectData.createdBy = AuthenticationService.getUser().id
+      CoinPriceService.getEtherPrice().then(res => {
+        this.etherPrice = res.data.EUR
+      })
     },
     methods: {
       createProject () {
@@ -119,8 +140,11 @@
           this.loading = true
           ProjectService.createNewProject(this.projectData)
             .then(response => {
-              this.loading = false
-              this.redirect('/project/' + response.data.id)
+              this.$blockchain.addNewProject(response.data.id, this.targetSum).then(() => {
+                  this.loading = false
+                  this.redirect('/project/' + response.data.id)
+                }
+              )
             })
         }
       },
@@ -150,6 +174,9 @@
               )
             })
         }
+      },
+      convertDecimalAndGetEuro () {
+        this.targetSum = this.targetSum | 0;
       }
     }
   }

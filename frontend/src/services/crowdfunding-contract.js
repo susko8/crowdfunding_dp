@@ -16,6 +16,11 @@ class CrowdfundingContract {
     return await crowdfundingContract.getActualProjectStatus(projectId, {from: this.store.state.web3.coinbase})
   }
 
+  async addNewProject (projectId,targetSum) {
+    const crowdfundingContract = await this.initCrowdfundingContract()
+    return await crowdfundingContract.addNewProject(projectId,targetSum, {from: this.store.state.web3.coinbase})
+  }
+
   async initCrowdfundingContract () {
     return await Contracts.getCrowdfundingContract()
   }
