@@ -38,7 +38,7 @@
                                 v-model="targetSum"/>
                     </v-col>
                 </v-row>
-                <div v-if="targetSum" class="pb-3">
+                <div class="pb-3">
                     Target Sum in eur: {{(targetSum * etherPrice).toFixed(2)}} €
                 </div>
                 <v-row class="justify-center pb-3">

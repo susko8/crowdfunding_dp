@@ -124,13 +124,11 @@
       async contributeToProject () {
         this.loading = true
         this.$blockchain.contributeToProject(this.project.id, this.contributionSum).then(async () => {
-            await this.getProjectStatus(this.project.id).then(() => {
-                this.contributionDialog = false
-                this.loading = false
-              }
-            )
-          }
-        )
+          await this.getProjectStatus(this.project.id).then(() => {
+            this.contributionDialog = false
+            this.loading = false
+          })
+        })
       },
       convertDecimalAndGetEuro () {
         this.targetSum = this.targetSum | 0;
