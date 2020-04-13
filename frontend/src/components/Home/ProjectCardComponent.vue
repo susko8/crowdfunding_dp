@@ -36,7 +36,9 @@
             <v-btn
                     outlined small
                     color="#1E1E1E"
-                    text>
+                    text
+                    @click="contributionDialog = true"
+            >
                 <v-icon class="mr-2">payment</v-icon>
                 Contribute
             </v-btn>
@@ -50,22 +52,64 @@
                 Read more
             </v-btn>
         </v-card-actions>
+        <v-dialog v-model="contributionDialog" width="600px" style="overflow-x: hidden !important;">
+            <v-card v-if="loading">
+                <loading v-if="loading" :text="'Please complete Transaction'"/>
+            </v-card>
+            <v-card v-if="!loading"
+                    style="overflow-x: hidden !important;">
+                <v-card-title>
+                    <span class="subtitle-1">Make a contribution to "{{project.name}}"</span>
+                </v-card-title>
+                <v-row class="justify-center">
+                    <v-col cols="6">
+                        <v-text-field
+                                color="black"
+                                type="number"
+                                light
+                                suffix="ETH"
+                                @blur="convertDecimalAndGetEuro()"
+                                label="Target Sum"
+                                v-model="contributionSum"/>
+                    </v-col>
+                </v-row>
+                <div class="pb-3 text-center">
+                    Target Sum in eur: {{(contributionSum * etherPrice).toFixed(2)}} €
+                </div>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" text @click="contributionDialog = false">Close</v-btn>
+                    <v-btn color="green darken-1" text @click="contributeToProject()">Contribute</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-card>
 </template>
 
 <script>
+  import CoinPriceService from '../../services/coin-price-service'
+  import Loading from '../Common/Loading'
+
   export default {
     name: 'ProjectCardComponent',
     props: ['project'],
+    components: {Loading},
     data () {
       return {
         progress: -1,
         actual: -1,
-        target: -1
+        target: -1,
+        contributionDialog: false,
+        etherPrice: 0,
+        contributionSum: 0,
+        loading: false
       }
     },
     async created () {
       await this.getProjectStatus(this.project.id);
+      CoinPriceService.getEtherPrice().then(res => {
+        this.etherPrice = res.data.EUR
+      })
     },
     methods: {
       redirectToProject (project) {
@@ -76,6 +120,20 @@
         this.actual = await status[0].toFixed()
         this.target = await status[1].toFixed()
         this.progress = await status[0].toFixed() / status[1].toFixed() * 100;
+      },
+      async contributeToProject () {
+        this.loading = true
+        this.$blockchain.contributeToProject(this.project.id, this.contributionSum).then(async () => {
+            await this.getProjectStatus(this.project.id).then(() => {
+                this.contributionDialog = false
+                this.loading = false
+              }
+            )
+          }
+        )
+      },
+      convertDecimalAndGetEuro () {
+        this.targetSum = this.targetSum | 0;
       }
     }
   }

@@ -20,7 +20,7 @@ contract Crowdfunding {
         projects.push(Project(6, 20, 2, 0x20096293CCFCf8A78EC787666EaC566fd3Df6A37));
     }
 
-    function addNewProject(uint _projectid, uint _targetSum) public {
+    function addNewProject(uint _projectid, uint _targetSum) payable public {
         projects.push(Project(_projectid, _targetSum, 0, msg.sender));
     }
 
