@@ -18,12 +18,13 @@ class CrowdfundingContract {
 
   async addNewProject (projectId, targetSum) {
     const crowdfundingContract = await this.initCrowdfundingContract()
-    return await crowdfundingContract.addNewProject(projectId, targetSum, {from: this.store.state.web3.coinbase})
+    return await crowdfundingContract.addNewProject(projectId, targetSum * 100, {from: this.store.state.web3.coinbase})
   }
 
   async contributeToProject (projectId, sum) {
     const crowdfundingContract = await this.initCrowdfundingContract()
-    await crowdfundingContract.contributeToProject(projectId, sum, {
+    console.log(sum)
+    await crowdfundingContract.contributeToProject(projectId, sum * 100, {
       value: this.store.state.web3.web3Instance().toWei(sum, 'ether'),
       gas: 300000,
       from: this.store.state.web3.coinbase

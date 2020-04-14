@@ -106,8 +106,8 @@
           this.project = res.data
           this.getProjectStatus(this.project.id).then(status => {
               this.progress = status[0].toFixed() / status[1].toFixed() * 100;
-              this.actual = status[0].toFixed();
-              this.target = status[1].toFixed();
+              this.actual = status[0].toFixed(2) / 100;
+              this.target = status[1].toFixed(2) / 100
             }
           )
         })
@@ -123,6 +123,7 @@
       contributionDialog: false,
       etherPrice: 0,
       contributionSum: 0,
+      euro: 0,
       loading: false
     }),
     methods: {
@@ -136,13 +137,13 @@
             this.contributionDialog = false
             this.loading = false
             this.progress = status[0].toFixed() / status[1].toFixed() * 100;
-            this.actual = status[0].toFixed();
-            this.target = status[1].toFixed();
+            this.actual = status[0].toFixed(2) / 100;
+            this.target = status[1].toFixed(2) / 100;
           })
         })
       },
       convertDecimalAndGetEuro () {
-        this.contributionSum = this.contributionSum | 0;
+        this.euro = this.contributionSum | 0;
       }
     }
   }

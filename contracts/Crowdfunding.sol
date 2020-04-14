@@ -12,12 +12,12 @@ contract Crowdfunding {
     Project[] projects;
 
     constructor() public{
-        projects.push(Project(1, 20, 0, 0x20096293CCFCf8A78EC787666EaC566fd3Df6A37));
-        projects.push(Project(2, 20, 3, 0x20096293CCFCf8A78EC787666EaC566fd3Df6A37));
-        projects.push(Project(3, 20, 2, 0x20096293CCFCf8A78EC787666EaC566fd3Df6A37));
-        projects.push(Project(4, 20, 4, 0x20096293CCFCf8A78EC787666EaC566fd3Df6A37));
-        projects.push(Project(5, 20, 19, 0x20096293CCFCf8A78EC787666EaC566fd3Df6A37));
-        projects.push(Project(6, 20, 2, 0x20096293CCFCf8A78EC787666EaC566fd3Df6A37));
+        projects.push(Project(1, 2000, 0, 0x8A7d043B9353a77EfDB59B5c887d005E5711B08e));
+        projects.push(Project(2, 2000, 300, 0x8A7d043B9353a77EfDB59B5c887d005E5711B08e));
+        projects.push(Project(3, 2000, 200, 0x8A7d043B9353a77EfDB59B5c887d005E5711B08e));
+        projects.push(Project(4, 2000, 400, 0x8A7d043B9353a77EfDB59B5c887d005E5711B08e));
+        projects.push(Project(5, 2000, 1900, 0x8A7d043B9353a77EfDB59B5c887d005E5711B08e));
+        projects.push(Project(6, 2000, 200, 0x8A7d043B9353a77EfDB59B5c887d005E5711B08e));
     }
 
     function addNewProject(uint _projectid, uint _targetSum) payable public {
@@ -50,7 +50,7 @@ contract Crowdfunding {
     function getActualSumOfProject(uint _projectId) public view returns (uint){
         for (uint i = 0; i < projects.length; i++) {
             if (projects[i].projectId == _projectId) {
-                return projects[i].actualSum;
+                return projects[i].actualSum * 100;
             }
         }
         return 0;

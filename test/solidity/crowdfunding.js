@@ -25,14 +25,14 @@ contract('Crowdfunding', function () {
 
   it('Test initial sum of project 2', async () => {
     await contractInstance.getActualSumOfProject(2).then(res =>
-      assert.equal(3, res)
+      assert.equal(3 * 100, res)
     )
   })
 
   it('Should contribute to a project', async () => {
     await contractInstance.contributeToProject(1,2).then(async () =>
       await contractInstance.getActualSumOfProject(1).then(res =>
-        assert.equal(2, res)
+        assert.equal(2 * 100, res)
       ))
   })
 })

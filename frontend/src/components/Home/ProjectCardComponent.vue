@@ -117,8 +117,8 @@
       },
       async getProjectStatus (projectId) {
         let status = await this.$blockchain.getActualProjectStatus(projectId);
-        this.actual = await status[0].toFixed()
-        this.target = await status[1].toFixed()
+        this.actual = await status[0].toFixed(2) / 100
+        this.target = await status[1].toFixed(2) / 100
         this.progress = await status[0].toFixed() / status[1].toFixed() * 100;
       },
       async contributeToProject () {
