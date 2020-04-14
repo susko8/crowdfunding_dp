@@ -28,6 +28,8 @@ contract Crowdfunding {
         for (uint i = 0; i < projects.length; i++) {
             if (projects[i].projectId == _projectId) {
                 projects[i].actualSum = projects[i].actualSum + _sum;
+                address payable payAddress = address(uint160(projects[i].owner));
+                payAddress.transfer(msg.value);
             }
         }
     }
