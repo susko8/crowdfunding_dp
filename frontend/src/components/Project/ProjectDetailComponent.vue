@@ -1,6 +1,7 @@
 <template>
     <v-container>
-        <v-card class="mx-auto pointer pt-1 mt-2">
+        <v-card class="mx-auto pointer pt-1 mt-2"
+                :class="{ completed: completed }">
 
             <v-row>
                 <v-col lg="6" sm="12">
@@ -23,7 +24,8 @@
                     <v-card-text class="text--primary project-description subtitle-1 pb-2">
                         Contributions:
                     </v-card-text>
-                    <v-card-subtitle class="text-center pb-2 pt-0">Contributed: {{actual + ' ETH of - ' + target + ' ETH'}}</v-card-subtitle>
+                    <v-card-subtitle v-if="!completed" class="text-center pb-2 pt-0">Contributed: {{actual + ' ETH of - ' + target + ' ETH'}}</v-card-subtitle>
+                    <v-card-subtitle v-if="completed" class="text-center pb-2 pt-0">Funding completed : {{actual + ' ETH'}}</v-card-subtitle>
                     <div class="progress-bar">
                         <v-progress-linear
                                 :value="progress"
@@ -47,6 +49,7 @@
                         color="#1E1E1E"
                         text
                         @click="contributionDialog = true"
+                        v-if="!completed"
                 >
                     <v-icon class="mr-2">payment</v-icon>
                     Contribute
@@ -124,21 +127,28 @@
       etherPrice: 0,
       contributionSum: 0,
       euro: 0,
-      loading: false
+      loading: false,
+      completed: false
     }),
     methods: {
       async getProjectStatus (projectId) {
-        return await this.$blockchain.getActualProjectStatus(projectId);
+        return await this.$blockchain.getActualProjectStatus(projectId).then(status =>
+        {
+          this.actual = status[0].toFixed(2) / 100;
+          this.target = status[1].toFixed(2) / 100;
+          this.progress = status[0].toFixed() / status[1].toFixed() * 100;
+          if (this.progress > 100) {
+            this.progress = 100;
+            this.completed = true;
+          }
+        });
       },
       async contributeToProject () {
         this.loading = true
         this.$blockchain.contributeToProject(this.project.id, this.contributionSum).then(async () => {
-          await this.getProjectStatus(this.project.id).then(status => {
+          await this.getProjectStatus(this.project.id).then(() => {
             this.contributionDialog = false
             this.loading = false
-            this.progress = status[0].toFixed() / status[1].toFixed() * 100;
-            this.actual = status[0].toFixed(2) / 100;
-            this.target = status[1].toFixed(2) / 100;
           })
         })
       },

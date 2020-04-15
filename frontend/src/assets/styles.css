@@ -73,4 +73,9 @@
     color: #4b830d;
 }
 
+.completed{
+    opacity: 0.75;
+    background-color: #aee571 !important;
+}
+
 

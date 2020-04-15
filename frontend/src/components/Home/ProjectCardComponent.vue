@@ -1,9 +1,10 @@
 <template>
     <v-card class="mx-auto"
             max-width="400"
-            min-width="400"
+            min-width="250"
             min-height="420"
-            max-height="420">
+            max-height="420"
+            :class="{ completed: completed }">
         <v-img
                 class="white--text align-end pointer"
                 height="200px"
@@ -19,7 +20,8 @@
             <div>{{project.description}}</div>
         </v-card-text>
 
-        <v-card-subtitle class="pb-2 pt-0 text-center">Contributed: {{actual + ' ETH of - ' + target + ' ETH'}}</v-card-subtitle>
+        <v-card-subtitle v-if="!completed" class="pb-2 pt-0 text-center">Contributed: {{actual + ' ETH of - ' + target + ' ETH'}}</v-card-subtitle>
+        <v-card-subtitle v-if="completed" class="pb-3 pt-0 text-center">Funding completed : {{actual + ' ETH'}}</v-card-subtitle>
 
         <v-progress-linear
                 v-model="progress"
@@ -34,6 +36,7 @@
 
         <v-card-actions class="mt-2">
             <v-btn
+                    v-if="!completed"
                     outlined small
                     color="#1E1E1E"
                     text
@@ -102,7 +105,8 @@
         contributionDialog: false,
         etherPrice: 0,
         contributionSum: 0,
-        loading: false
+        loading: false,
+        completed: false
       }
     },
     async created () {
@@ -120,6 +124,10 @@
         this.actual = await status[0].toFixed(2) / 100
         this.target = await status[1].toFixed(2) / 100
         this.progress = await status[0].toFixed() / status[1].toFixed() * 100;
+        if (this.progress > 100) {
+          this.progress = 100;
+          this.completed = true;
+        }
       },
       async contributeToProject () {
         this.loading = true
