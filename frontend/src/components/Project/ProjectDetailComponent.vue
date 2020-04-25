@@ -41,6 +41,13 @@
                     <v-card-text class="text--primary project-description subtitle-1 mt-5">
                         <div>Latest transactions:</div>
                     </v-card-text>
+                    <v-card class="mx-auto"
+                            style="overflow-y: scroll"
+                            min-width="200"
+                            max-height="450"
+                            min-height="450">
+                        <transactions-list-black :contributions="contributions"/>
+                    </v-card>
                 </v-col>
             </v-row>
             <v-card-actions class="justify-end">
@@ -99,23 +106,27 @@
   import DisqusComponent from './DisqusComponent'
   import CoinPriceService from '../../services/coin-price-service'
   import Loading from '../Common/Loading'
+  import TransactionsListBlack from '../TransactionListBlack'
+  import AuthenticationService from '../../services/authentication-service'
 
   export default {
     name: 'ProjectDetailComponent',
-    components: {DisqusComponent, Loading},
+    components: {TransactionsListBlack, DisqusComponent, Loading},
     async mounted () {
       ProjectService.getOneProject(this.$route.params.id)
         .then((res) => {
           this.project = res.data
           this.getProjectStatus(this.project.id).then(status => {
-              this.progress = status[0].toFixed() / status[1].toFixed() * 100;
-              this.actual = status[0].toFixed(2) / 100;
-              this.target = status[1].toFixed(2) / 100
-            }
-          )
+            this.actual = status[0].toFixed(2) / 100;
+            this.target = status[1].toFixed(2) / 100;
+            this.progress = status[0].toFixed() / status[1].toFixed() * 100;
+          })
         })
       CoinPriceService.getEtherPrice().then(res => {
         this.etherPrice = res.data.EUR
+      })
+      ProjectService.getContributionsForProject(this.$route.params.id).then((res) => {
+        this.contributions = res.data;
       })
     },
     data: () => ({
@@ -128,7 +139,8 @@
       contributionSum: 0,
       euro: 0,
       loading: false,
-      completed: false
+      completed: false,
+      contributions: {}
     }),
     methods: {
       async getProjectStatus (projectId) {
@@ -145,12 +157,21 @@
       },
       async contributeToProject () {
         this.loading = true
+        const contributionData = {
+          userLogin: AuthenticationService.getUserLogin(),
+          sum: this.contributionSum
+        }
         this.$blockchain.contributeToProject(this.project.id, this.contributionSum).then(async () => {
           await this.getProjectStatus(this.project.id).then(() => {
-            this.contributionDialog = false
-            this.loading = false
+            ProjectService.recordContribution(this.project.id, contributionData).then(() => {
+              ProjectService.getContributionsForProject(this.$route.params.id).then((res) => {
+                this.contributions = res.data;
+                this.contributionDialog = false
+                this.loading = false
+              })
+            })
           })
-        })
+          })
       },
       convertDecimalAndGetEuro () {
         this.euro = this.contributionSum | 0;

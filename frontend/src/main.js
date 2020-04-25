@@ -12,7 +12,10 @@ import VueDisqus from 'vue-disqus'
 import firebase from 'firebase';
 import vars from './dev-env-variables.js'
 import AppPlugin from './plugins/AppPlugin'
+import moment from 'moment'
 
+
+Vue.prototype.moment = moment
 Vue.use(Vuex)
 Vue.use(VueRouter)
 Vue.config.productionTip = false
