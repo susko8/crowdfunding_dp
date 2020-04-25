@@ -92,6 +92,8 @@
 <script>
   import CoinPriceService from '../../services/coin-price-service'
   import Loading from '../Common/Loading'
+  import ProjectService from '../../services/project-service'
+  import AuthenticationService from '../../services/authentication-service'
 
   export default {
     name: 'ProjectCardComponent',
@@ -131,10 +133,16 @@
       },
       async contributeToProject () {
         this.loading = true
+        const contributionData = {
+            userLogin: AuthenticationService.getUserLogin(),
+            sum: this.contributionSum
+        }
         this.$blockchain.contributeToProject(this.project.id, this.contributionSum).then(async () => {
           await this.getProjectStatus(this.project.id).then(() => {
-            this.contributionDialog = false
-            this.loading = false
+            ProjectService.recordContribution(this.project.id, contributionData).then(() => {
+              this.contributionDialog = false
+              this.loading = false
+            })
           })
         })
       },

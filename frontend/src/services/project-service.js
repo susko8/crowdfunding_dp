@@ -11,8 +11,20 @@ class ProjectService {
     return axios.get(vars.baseURI + '/projects/' + projectId)
   }
 
-  createNewProject(projectData){
+  createNewProject (projectData) {
     return axios.post(vars.baseURI + '/projects/new', projectData)
+  }
+
+  recordContribution (projectId, contributionData) {
+    return axios.post(vars.baseURI + '/projects/contribute/' + projectId, contributionData)
+  }
+
+  getAllContributions () {
+    return axios.get(vars.baseURI + '/projects/contributions')
+  }
+
+  getContributionsForProject (projectId) {
+    return axios.get(vars.baseURI + '/projects/contributions/' + projectId)
   }
 
 }

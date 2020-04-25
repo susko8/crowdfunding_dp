@@ -7,17 +7,26 @@ class AuthenticationService {
     return axios.post(vars.baseURI + '/authenticate', loginData)
   }
 
-  setToken(jwt, user){
+  setToken (jwt, user) {
     localStorage.setItem('jwtToken', jwt)
     localStorage.setItem('user', JSON.stringify(user))
   }
 
-  getUser(){
-    return JSON.parse(localStorage.getItem('user'));
+  getUser () {
+    return JSON.parse(localStorage.getItem('user'))
+  }
+
+  getUserLogin () {
+    const userData = JSON.parse(localStorage.getItem('user'))
+    if (userData != null) {
+      return userData.login
+    } else{
+      return null;
+    }
   }
 
   logout () {
-    localStorage.clear();
+    localStorage.clear()
     location.reload()
   }
 
