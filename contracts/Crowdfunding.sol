@@ -9,6 +9,8 @@ contract Crowdfunding {
         address owner;
     }
 
+    event Donation(address sender, uint projectId, uint sum);
+
     Project[] projects;
 
     constructor() public{
@@ -30,6 +32,9 @@ contract Crowdfunding {
                 projects[i].actualSum = projects[i].actualSum + _sum;
                 address payable payAddress = address(uint160(projects[i].owner));
                 payAddress.transfer(msg.value);
+
+                // emit event
+                emit Donation(msg.sender, _projectId, _sum);
             }
         }
     }

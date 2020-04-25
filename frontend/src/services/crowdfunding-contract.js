@@ -23,7 +23,6 @@ class CrowdfundingContract {
 
   async contributeToProject (projectId, sum) {
     const crowdfundingContract = await this.initCrowdfundingContract()
-    console.log(sum)
     await crowdfundingContract.contributeToProject(projectId, sum * 100, {
       value: this.store.state.web3.web3Instance().toWei(sum, 'ether'),
       gas: 300000,
