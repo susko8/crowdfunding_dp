@@ -2,8 +2,8 @@
     <v-card class="mx-auto"
             max-width="400"
             min-width="250"
-            min-height="420"
-            max-height="420"
+            min-height="445"
+            max-height="450"
             :class="{ completed: completed }">
         <v-img
                 class="white--text align-end pointer"
@@ -16,7 +16,7 @@
 
         <v-card-subtitle class="pb-0">{{'12.3.2020'}}</v-card-subtitle>
 
-        <v-card-text class="text--primary project-description pb-0 mb-0">
+        <v-card-text class="text--primary project-description pb-2 mb-2">
             <div>{{project.description}}</div>
         </v-card-text>
 

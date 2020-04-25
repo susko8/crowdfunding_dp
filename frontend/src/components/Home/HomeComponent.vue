@@ -9,7 +9,7 @@
                     </v-btn>
                 </v-row>
                 <v-row>
-                    <v-col cols="12" sm="4" md="3" lg="3"
+                    <v-col cols="12" sm="4" md="4" lg="3"
                            v-for="project of projects"
                            :key="project.id">
                         <project-card-component :project="project"/>

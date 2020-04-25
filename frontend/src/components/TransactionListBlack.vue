@@ -5,7 +5,7 @@
                        :key="index"
             ></v-divider>
             <v-list-item
-                         :key="contribution.id"
+                         :key="contribution.id + index"
             >
                 <v-list-item-content>
                     <v-list-item-title
