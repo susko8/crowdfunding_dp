@@ -3,10 +3,11 @@ import vars from '../dev-env-variables'
 
 class ProjectService {
 
-  getAllProjects (search) {
+  getAllProjects (search, category) {
     return axios.get(vars.baseURI + '/projects',{
       params: {
-        name: search
+        name: search,
+        category: category
       }
     })
   }

@@ -26,6 +26,8 @@
                                     <v-select
                                             :items="items"
                                             label="Category"
+                                            v-model="category"
+                                            @change="searchProjects"
                                     ></v-select>
                                 </v-expansion-panel-content>
                             </v-expansion-panel>
@@ -57,6 +59,7 @@
   import ProjectCardComponent from './ProjectCardComponent'
   import ProjectService from '../../services/project-service'
   import AuthenticationService from '../../services/authentication-service'
+  import ProjectCategories from '../../util/project-categories'
 
   export default {
     name: 'HomeComponent',
@@ -65,14 +68,15 @@
       projects: {},
       page: 1,
       numberOfPages: 1,
-      items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
-      search: ''
+      items: ProjectCategories.categories,
+      search: '',
+      category:''
     }),
     computed: {
       user: () => AuthenticationService.getUser()
     },
     async mounted () {
-      ProjectService.getAllProjects(this.search)
+      ProjectService.getAllProjects(this.search, this.category)
         .then((result) => {
           this.projects = result.data
           this.numberOfPages = Math.ceil(this.projects.length / 12)
@@ -83,7 +87,7 @@
         this.$router.push({path: path})
       },
       searchProjects(){
-        ProjectService.getAllProjects(this.search)
+        ProjectService.getAllProjects(this.search, this.category)
           .then((result) => {
             this.projects = result.data
             this.numberOfPages = Math.ceil(this.projects.length / 12)

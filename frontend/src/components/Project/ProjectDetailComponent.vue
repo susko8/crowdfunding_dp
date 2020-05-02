@@ -7,9 +7,11 @@
                 <v-col lg="6" sm="12">
                     <v-img
                             class="white--text align-end ma-8"
+                            style="position: relative"
                             :src="project.src"
                             aspect-ratio="1"
                     >
+                        <category-chip-component :category="project.category"/>
                     </v-img>
                 </v-col>
                 <v-col lg="6" sm="12" class="mt-2">
@@ -20,6 +22,9 @@
 
                     <v-card-text class="text--primary subtitle-1 project-description">
                         <div>{{project.description}}</div>
+                    </v-card-text>
+                    <v-card-text class="text--primary subtitle-1 project-description">
+                        <div>Category: {{project.category}}</div>
                     </v-card-text>
                     <v-card-text class="text--primary project-description subtitle-1 pb-2">
                         Contributions:
@@ -51,7 +56,7 @@
                 </v-col>
             </v-row>
             <v-card-actions class="justify-end">
-                <v-btn v-if="user"
+                <v-btn v-if="user != null && user.userRole === 'ADMIN'"
                         outlined large
                         color="#1E1E1E"
                         text
@@ -60,7 +65,7 @@
                     Delete
                 </v-btn>
                 <v-btn
-                        v-if="user"
+                        v-if="user != null && user.userRole === 'ADMIN'"
                         outlined large
                         color="#1E1E1E"
                         text
@@ -125,10 +130,11 @@
   import Loading from '../Common/Loading'
   import TransactionsListBlack from '../TransactionListBlack'
   import AuthenticationService from '../../services/authentication-service'
+  import CategoryChipComponent from '../Project/CategoryChipComponent'
 
   export default {
     name: 'ProjectDetailComponent',
-    components: {TransactionsListBlack, DisqusComponent, Loading},
+    components: {TransactionsListBlack, DisqusComponent, Loading, CategoryChipComponent},
     async mounted () {
       ProjectService.getOneProject(this.$route.params.id)
         .then((res) => {

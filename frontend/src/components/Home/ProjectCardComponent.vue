@@ -7,10 +7,12 @@
             :class="{ completed: completed }">
         <v-img
                 class="white--text align-end pointer"
+                style="position: relative"
                 height="200px"
                 :src="project.src"
                 @click="redirectToProject(project)"
         >
+            <category-chip-component :category="project.category"/>
         </v-img>
         <v-card-title>{{project.name}}</v-card-title>
 
@@ -94,11 +96,12 @@
   import Loading from '../Common/Loading'
   import ProjectService from '../../services/project-service'
   import AuthenticationService from '../../services/authentication-service'
+  import CategoryChipComponent from '../Project/CategoryChipComponent'
 
   export default {
     name: 'ProjectCardComponent',
     props: ['project'],
-    components: {Loading},
+    components: {CategoryChipComponent, Loading},
     data () {
       return {
         progress: -1,
