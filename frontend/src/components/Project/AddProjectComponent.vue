@@ -28,6 +28,15 @@
                 </v-row>
                 <v-row>
                     <v-col cols="12">
+                        <v-select
+                                :items="items"
+                                label="Category"
+                                v-model="projectData.category"
+                        ></v-select>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col cols="12">
                         <v-text-field
                                 color="black"
                                 type="number"
@@ -85,6 +94,7 @@
   import vue2Dropzone from 'vue2-dropzone'
   import 'vue2-dropzone/dist/vue2Dropzone.min.css'
   import CoinPriceService from '../../services/coin-price-service'
+  import ProjectCategories from '../../util/project-categories'
 
   let uuid = require('uuid')
 
@@ -96,13 +106,15 @@
         name: '',
         description: '',
         src: '',
-        createdBy: Number
+        createdBy: Number,
+        category: ''
       },
       snackBar: {
         show: false,
         message: '',
         color: ''
       },
+      items: ProjectCategories.categories,
       targetSum: 0,
       etherPrice: '',
       valid: true,

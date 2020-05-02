@@ -17,6 +17,7 @@ class ProjectService {
   }
 
   createNewProject (projectData) {
+    console.log(projectData)
     return axios.post(vars.baseURI + '/projects/new', projectData)
   }
 
