@@ -2,11 +2,33 @@
     <v-content>
         <carousel/>
             <v-container>
-                <v-row v-if="user" class="ma-3">
-                    <v-btn outlined large @click="redirect('project-new')">
-                        <v-icon class="mr-5">mdi-plus-circle-outline</v-icon>
-                        Create Project
-                    </v-btn>
+                <v-row class="ml-1">
+                    <v-col>
+                        <v-btn v-if="user" outlined large @click="redirect('project-new')">
+                            <v-icon class="mr-5">mdi-plus-circle-outline</v-icon>
+                            Create Project
+                        </v-btn>
+                    </v-col>
+                    <v-col>
+                        <v-expansion-panels outlined hover>
+                            <v-expansion-panel>
+                                <v-expansion-panel-header>
+                                    Filter
+                                </v-expansion-panel-header>
+                                <v-expansion-panel-content>
+                                    <v-text-field
+                                            label="Name"
+                                            clearable
+                                            prepend-icon="search"
+                                    ></v-text-field>
+                                    <v-select
+                                            :items="items"
+                                            label="Category"
+                                    ></v-select>
+                                </v-expansion-panel-content>
+                            </v-expansion-panel>
+                        </v-expansion-panels>
+                    </v-col>
                 </v-row>
                 <v-row>
                     <v-col cols="12" sm="4" md="4" lg="3"
@@ -40,7 +62,8 @@
     data: () => ({
       projects: {},
       page: 1,
-      numberOfPages: 1
+      numberOfPages: 1,
+      items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
     }),
     computed: {
       user: () => AuthenticationService.getUser()

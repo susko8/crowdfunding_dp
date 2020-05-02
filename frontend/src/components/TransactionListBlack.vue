@@ -2,7 +2,7 @@
     <v-list three-line>
         <template v-for="(contribution, index) in contributions">
             <v-divider
-                       :key="index"
+                       :key="index + contribution.id"
             ></v-divider>
             <v-list-item
                          :key="index"

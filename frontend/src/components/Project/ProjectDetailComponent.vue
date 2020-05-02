@@ -51,6 +51,23 @@
                 </v-col>
             </v-row>
             <v-card-actions class="justify-end">
+                <v-btn v-if="user"
+                        outlined large
+                        color="#1E1E1E"
+                        text
+                >
+                    <v-icon class="mr-2">delete</v-icon>
+                    Delete
+                </v-btn>
+                <v-btn
+                        v-if="user"
+                        outlined large
+                        color="#1E1E1E"
+                        text
+                >
+                    <v-icon class="mr-2">edit</v-icon>
+                    Edit
+                </v-btn>
                 <v-btn
                         outlined large
                         color="#1E1E1E"
@@ -128,6 +145,9 @@
       ProjectService.getContributionsForProject(this.$route.params.id).then((res) => {
         this.contributions = res.data;
       })
+    },
+    computed: {
+      user: () => AuthenticationService.getUser()
     },
     data: () => ({
       project: {},
