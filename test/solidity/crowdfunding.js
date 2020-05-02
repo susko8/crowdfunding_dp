@@ -25,7 +25,7 @@ contract('Crowdfunding', function () {
 
   it('Test initial sum of project 2', async () => {
     await contractInstance.getActualSumOfProject(2).then(res =>
-      assert.equal(3 * 100, res)
+      assert.equal(300, res)
     )
   })
 
