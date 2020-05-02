@@ -60,6 +60,7 @@
                         outlined large
                         color="#1E1E1E"
                         text
+                        @click="deleteProject()"
                 >
                     <v-icon class="mr-2">delete</v-icon>
                     Delete
@@ -201,6 +202,14 @@
       },
       convertDecimalAndGetEuro () {
         this.euro = this.contributionSum | 0;
+      },
+      redirect (path) {
+        this.$router.replace({path: path})
+      },
+      deleteProject(){
+        ProjectService.deleteProject(this.$route.params.id).then(()=>{
+          this.redirect('/home');
+        })
       }
     }
   }

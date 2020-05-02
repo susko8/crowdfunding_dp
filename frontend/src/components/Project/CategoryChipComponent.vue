@@ -1,6 +1,8 @@
 <template>
-    <v-chip :color="colors[category]" class="chip-position" text-color="white">{{category.slice(0,1) + category.slice(1).toLowerCase()}}
-        <v-icon right>{{icons[category]}}</v-icon></v-chip>
+    <v-chip :color="colors[category]" class="chip-position" text-color="white">{{category!= null ? category.slice(0,1) +
+        category.slice(1).toLowerCase() : ''}}
+        <v-icon right>{{icons[category]}}</v-icon>
+    </v-chip>
 </template>
 
 <script>

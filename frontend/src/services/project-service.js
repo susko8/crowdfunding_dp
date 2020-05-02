@@ -17,7 +17,6 @@ class ProjectService {
   }
 
   createNewProject (projectData) {
-    console.log(projectData)
     return axios.post(vars.baseURI + '/projects/new', projectData)
   }
 
@@ -31,6 +30,10 @@ class ProjectService {
 
   getContributionsForProject (projectId) {
     return axios.get(vars.baseURI + '/projects/contributions/' + projectId)
+  }
+
+  deleteProject(projectId){
+    return axios.delete(vars.baseURI + '/projects/' + projectId)
   }
 
 }
