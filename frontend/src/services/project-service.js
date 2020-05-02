@@ -20,6 +20,10 @@ class ProjectService {
     return axios.post(vars.baseURI + '/projects/new', projectData)
   }
 
+  editProject(projectData){
+    return axios.put(vars.baseURI + '/projects/edit', projectData)
+  }
+
   recordContribution (projectId, contributionData) {
     return axios.post(vars.baseURI + '/projects/contribute/' + projectId, contributionData)
   }

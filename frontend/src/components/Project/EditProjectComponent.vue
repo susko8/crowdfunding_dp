@@ -35,21 +35,6 @@
                         ></v-select>
                     </v-col>
                 </v-row>
-                <v-row>
-                    <v-col cols="12">
-                        <v-text-field
-                                color="black"
-                                type="number"
-                                light
-                                suffix="ETH"
-                                @blur="convertDecimalAndGetEuro()"
-                                label="Target Sum"
-                                v-model="targetSum"/>
-                    </v-col>
-                </v-row>
-                <div class="pb-3">
-                    Target Sum in eur: {{(targetSum * etherPrice).toFixed(2)}} €
-                </div>
                 <v-row class="justify-center pb-3">
                     <vue-dropzone
                             ref="imgDropZone"
@@ -63,7 +48,7 @@
                         </div>
                     </div>
                 </v-row>
-                <v-row v-if="projectData.src">
+                <v-row>
                     <v-img
                             class="white--text align-end ma-8"
                             style="position: relative"
@@ -77,8 +62,8 @@
                     <v-btn
                             class="margin-auto"
                             large
-                            @click="createProject()"
-                    >Create Project
+                            @click="editProject()"
+                    >Edit Project
                     </v-btn>
                 </v-row>
             </v-form>
@@ -110,10 +95,11 @@
   let uuid = require('uuid')
 
   export default {
-    name: 'AddProjectComponent',
+    name: 'EditProjectComponent',
     components: {Loading, vueDropzone: vue2Dropzone, CategoryChipComponent},
     data: () => ({
       projectData: {
+        projectId: '',
         name: '',
         description: '',
         src: '',
@@ -152,23 +138,24 @@
       images: []
     }),
     mounted () {
-      this.projectData.createdBy = AuthenticationService.getUser().id
       CoinPriceService.getEtherPrice().then(res => {
         this.etherPrice = res.data.EUR
       })
+      ProjectService.getOneProject(this.$route.params.id).then((res)=>{
+        this.projectData = res.data
+      });
     },
     methods: {
-      createProject () {
+      editProject () {
         if (this.validate()) {
           this.loading = true
-          ProjectService.createNewProject(this.projectData)
+          this.projectData.projectId = this.$route.params.id
+          this.projectData.createdBy = AuthenticationService.getUser().id
+          ProjectService.editProject(this.projectData)
             .then(response => {
-              this.$blockchain.addNewProject(response.data.id, this.targetSum).then(() => {
                   this.loading = false
                   this.redirect('/project/' + response.data.id)
-                }
-              )
-            })
+                })
         }
       },
       redirect (path) {

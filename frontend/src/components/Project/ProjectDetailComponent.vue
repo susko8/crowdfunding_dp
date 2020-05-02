@@ -70,6 +70,7 @@
                         outlined large
                         color="#1E1E1E"
                         text
+                        @click="redirect('/edit-project/'+project.id)"
                 >
                     <v-icon class="mr-2">edit</v-icon>
                     Edit

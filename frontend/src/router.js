@@ -2,6 +2,7 @@ import HomeComponent from './components/Home/HomeComponent'
 import RegisterComponent from './components/UserManagement/RegisterComponent'
 import ProjectDetailComponent from './components/Project/ProjectDetailComponent'
 import AddProjectComponent from './components/Project/AddProjectComponent'
+import EditProjectComponent from './components/Project/EditProjectComponent'
 
 const requireAuth = (to, from, next) => {
   if (!('jwtToken' in localStorage)) {
@@ -38,6 +39,12 @@ export const routes = [
     path: '/project-new',
     name: 'project-new',
     component: AddProjectComponent,
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/edit-project/:id',
+    name: 'project',
+    component: EditProjectComponent,
     beforeEnter: requireAuth
   }
 ]
