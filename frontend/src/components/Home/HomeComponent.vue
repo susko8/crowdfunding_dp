@@ -20,6 +20,8 @@
                                             label="Name"
                                             clearable
                                             prepend-icon="search"
+                                            v-model="search"
+                                            @keyup="searchProjects()"
                                     ></v-text-field>
                                     <v-select
                                             :items="items"
@@ -64,12 +66,13 @@
       page: 1,
       numberOfPages: 1,
       items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
+      search: ''
     }),
     computed: {
       user: () => AuthenticationService.getUser()
     },
     async mounted () {
-      ProjectService.getAllProjects()
+      ProjectService.getAllProjects(this.search)
         .then((result) => {
           this.projects = result.data
           this.numberOfPages = Math.ceil(this.projects.length / 12)
@@ -78,6 +81,13 @@
     methods: {
       redirect (path) {
         this.$router.push({path: path})
+      },
+      searchProjects(){
+        ProjectService.getAllProjects(this.search)
+          .then((result) => {
+            this.projects = result.data
+            this.numberOfPages = Math.ceil(this.projects.length / 12)
+          })
       }
     }
   }

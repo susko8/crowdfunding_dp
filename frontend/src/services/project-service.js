@@ -3,8 +3,12 @@ import vars from '../dev-env-variables'
 
 class ProjectService {
 
-  getAllProjects () {
-    return axios.get(vars.baseURI + '/projects')
+  getAllProjects (search) {
+    return axios.get(vars.baseURI + '/projects',{
+      params: {
+        name: search
+      }
+    })
   }
 
   async getOneProject (projectId) {
